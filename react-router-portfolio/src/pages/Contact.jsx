@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -28,14 +29,16 @@ export default function Contact() {
       const data = await res.json();
 
       if (res.ok) {
-        setStatus("✅ Email sent successfully!");
+        setStatus('')
+        toast.success("Email sent successfully! ✅");
         setFormData({ name: "", email: "", message: "" });
       } else {
-        setStatus("❌ Failed to send email.");
+        toast.error(data.message || "Failed to send email ❌");
       }
     } catch (error) {
       console.error("Error:", error);
-      setStatus("❌ Something went wrong.");
+      setStatus("");
+      toast.error("Something went wrong. Please try again later.");
     }
   };
 
